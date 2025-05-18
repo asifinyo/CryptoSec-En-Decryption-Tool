@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoSec</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #000000, #1a1a1a);
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+        .tab-link {
+            position: relative;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        .tab-link:hover {
+            transform: scale(1.05);
+            color: #39ff14;
+        }
+        .tab-link.active {
+            color: #39ff14;
+        }
+        .tab-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #39ff14;
+            box-shadow: 0 0 10px #39ff14;
+        }
+        .dragover {
+            border: 2px dashed #39ff14;
+            background-color: rgba(57, 255, 20, 0.1);
+            transform: scale(1.02);
+            box-shadow: 0 0 15px #39ff14;
+            transition: all 0.2s ease;
+        }
+        .btn-neon {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            background: #000000;
+            border: 2px solid #39ff14;
+            color: #39ff14;
+        }
+        .btn-neon:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px #39ff14;
+            background: #39ff14;
+            color: #000000;
+        }
+        .btn-neon:active {
+            transform: scale(0.95);
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .slide-in {
+            animation: slideIn 0.5s ease-in-out;
+        }
+        .spinner {
+            display: none;
+            border: 4px solid #1a1a1a;
+            border-top: 4px solid #39ff14;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            box-shadow: 0 0 10px #39ff14;
+        }
+        .input-neon {
+            background: #1a1a1a;
+            border: 1px solid #39ff14;
+            color: #e0e0e0;
+            transition: box-shadow 0.3s ease;
+        }
+        .input-neon:focus {
+            box-shadow: 0 0 10px #39ff14;
+            border-color: #39ff14;
+            outline: none;
+        }
+        .table-responsive {
+            overflow-x: auto;
+        }
+        @media (max-width: 640px) {
+            .nav-tabs {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .tab-link {
+                width: 100%;
+                text-align: center;
+            }
+            .grid-cols-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #logout-btn{
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            background: #000000;
+            border: 2px solid red;
+            color: red;
+        }
+
+        #logout-btn:hover{
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px red;
+            background: red;
+            color: #000000;
+        }
+
+
+    </style>
+</head>
+<body>
+    <header class="bg-black text-white p-4 shadow-lg">
+        <div class="container mx-auto flex flex-col sm:flex-row justify-between items-center">
+            <h1 class="text-2xl font-bold text-neon-green">CryptoSec</h1>
+            <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4 mt-2 sm:mt-0">
+                <div id="user-info" class="hidden">
+                    <span data-i18n="welcome">Xoş gəlmisiniz, </span><span id="username" class="text-neon-green">User</span>
+                </div>
+                <div class="flex space-x-2">
+                    <button id="lang-az" class="px-2 py-1 btn-neon rounded">AZ</button>
+                    <button id="lang-en" class="px-2 py-1 btn-neon rounded">EN</button>
+                </div>
+                <button id="logout-btn" class="px-4 py-2 btn-neon rounded" data-i18n="logout">Çıxış</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto mt-6 px-4">
+        <nav class="bg-gray-900 p-4 rounded-lg shadow-lg mb-6">
+            <ul class="nav-tabs flex flex-wrap space-x-2 sm:space-x-4">
+                <li class="flex-1 sm:flex-none"><a href="#home" class="tab-link px-4 py-2 bg-gray-800 rounded active" data-i18n="home">Ana Səhifə</a></li>
+                <li class="flex-1 sm:flex-none"><a href="#encrypt" class="tab-link px-4 py-2 bg-gray-800 rounded" data-i18n="encrypt">Şifrələmə</a></li>
+                <li class="flex-1 sm:flex-none"><a href="#decrypt" class="tab-link px-4 py-2 bg-gray-800 rounded" data-i18n="decrypt">Şifrəni Açma</a></li>
+                <li class="flex-1 sm:flex-none"><a href="#history" class="tab-link px-4 py-2 bg-gray-800 rounded" data-i18n="history">Tarixçə</a></li>
+            </ul>
+        </nav>
+
+        <main id="content" class="space-y-6">
+            <section id="home" class="tab-content bg-gray-900 p-6 rounded-lg shadow-lg fade-in">
+                <h2 class="text-2xl font-semibold mb-4 text-neon-green" data-i18n="secure_system">Təhlükəsiz Fayl Şifrələmə Sistemi</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+                    <div class="p-4 bg-gray-800 rounded-lg hover:shadow-[0_0_15px_#39ff14] transition-shadow">
+                        <h3 class="font-bold text-neon-green" data-i18n="about_project">Layihə Haqqında</h3>
+                        <p data-i18n="about_project_desc">Bu sistem AES, RSA, ChaCha20, TripleDES və ECC kimi qabaqcıl alqoritmlər ilə fayllarınızı şifrələyir.</p>
+                    </div>
+                    <div class="p-4 bg-gray-800 rounded-lg hover:shadow-[0_0_15px_#39ff14] transition-shadow">
+                        <h3 class="font-bold text-neon-green" data-i18n="algorithms">Şifrələmə Alqoritmləri</h3>
+                        <p data-i18n="algorithms_desc">AES, ChaCha20, TripleDES, RSA və ECC dəstəklənir.</p>
+                    </div>
+                    <div class="p-4 bg-gray-800 rounded-lg hover:shadow-[0_0_15px_#39ff14] transition-shadow">
+                        <h3 class="font-bold text-neon-green" data-i18n="importance">Şifrələmənin Əhəmiyyəti</h3>
+                        <p data-i18n="importance_desc">Məlumatlarınızı üçüncü şəxslərdən qorumaq üçün şifrələmə vacibdir.</p>
+                    </div>
+                </div>
+                <h3 class="font-bold text-neon-green" data-i18n="instructions">Təlimat</h3>
+                <ol class="list-decimal ml-6">
+                    <li data-i18n="instruction_1">Şifrələmə bölməsindən fayl seçin və alqoritm seçin</li>
+                    <li data-i18n="instruction_2">"Şifrələ" düyməsini basın</li>
+                    <li data-i18n="instruction_3">Yaranan şifrələnmiş faylı yükləyin</li>
+                    <li data-i18n="instruction_4">Şifrəni açmaq üçün eyni alqoritmdən istifadə edin</li>
+                </ol>
+            </section>
+
+            <section id="encrypt" class="tab-content bg-gray-900 p-6 rounded-lg shadow-lg hidden fade-in">
+                <h2 class="text-2xl font-semibold mb-4 text-neon-green" data-i18n="file_encryption">Fayl Şifrələmə</h2>
+                <div class="space-y-4">
+                    <div id="encrypt-dropzone" class="border-2 border-gray-700 p-4 rounded-lg text-center transition-all">
+                        <p data-i18n="drag_file">Faylı bura sürükləyin və ya klik edin</p>
+                        <input type="file" id="encrypt-file" class="hidden">
+                    </div>
+                    <p><span data-i18n="selected_file">Seçilmiş fayl</span>: <span id="encrypt-file-name" data-i18n="none">Yoxdur</span></p>
+                    <div>
+                        <label data-i18n="select_algorithm" class="text-neon-green">Alqoritm seçin:</label>
+                        <select id="encrypt-algorithm" class="input-neon p-2 rounded-lg w-full">
+                            <option value="aes">AES</option>
+                            <option value="chacha20">ChaCha20</option>
+                            <option value="tripledes">TripleDES</option>
+                            <option value="rsa">RSA</option>
+                            <option value="ecc">ECC</option>
+                        </select>
+                    </div>
+                    <div id="key-input" class="hidden">
+                        <label data-i18n="key_input" class="text-neon-green">Açar daxil edin:</label>
+                        <textarea id="encrypt-key" class="input-neon p-2 rounded-lg w-full" rows="4"></textarea>
+                        <button id="generate-key" class="px-4 py-2 btn-neon rounded-lg mt-2 w-full sm:w-auto" data-i18n="generate_key">
+                            Açar Generasiya Et
+                        </button>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button id="encrypt-btn" class="px-4 py-2 btn-neon rounded-lg w-full sm:w-auto" data-i18n="encrypt_btn">Şifrələ</button>
+                        <div id="encrypt-spinner" class="spinner"></div>
+                    </div>
+                    <p><span data-i18n="encrypted_result">Şifrələnmiş nəticə</span>: <span id="encrypt-result" data-i18n="none">Yoxdur</span></p>
+                    <button id="encrypt-download-btn" class="px-4 py-2 btn-neon rounded-lg w-full sm:w-auto hidden" data-i18n="download">Yüklə</button>
+                </div>
+            </section>
+
+            <section id="decrypt" class="tab-content bg-gray-900 p-6 rounded-lg shadow-lg hidden fade-in">
+                <h2 class="text-2xl font-semibold mb-4 text-neon-green" data-i18n="file_decryption">Fayl Şifrəsini Açma</h2>
+                <div class="space-y-4">
+                    <div id="decrypt-dropzone" class="border-2 border-gray-700 p-4 rounded-lg text-center transition-all">
+                        <p data-i18n="upload_encrypted">Şifrələnmiş faylı bura yükləyin</p>
+                        <input type="file" id="decrypt-file" class="hidden">
+                    </div>
+                    <p><span data-i18n="selected_file">Seçilmiş fayl</span>: <span id="decrypt-file-name" data-i18n="none">Yoxdur</span></p>
+                    <div>
+                        <label data-i18n="select_algorithm" class="text-neon-green">Alqoritm seçin:</label>
+                        <select id="decrypt-algorithm" class="input-neon p-2 rounded-lg w-full">
+                            <option value="" data-i18n="unknown_algorithm">Alqoritm məlum deyil</option>
+                            <option value="aes">AES</option>
+                            <option value="chacha20">ChaCha20</option>
+                            <option value="tripledes">TripleDES</option>
+                            <option value="rsa">RSA</option>
+                            <option value="ecc">ECC</option>
+                        </select>
+                    </div>
+                    <div id="decrypt-key-input" class="hidden">
+                        <label data-i18n="key_input" class="text-neon-green">Açar daxil edin:</label>
+                        <textarea id="decrypt-key" class="input-neon p-2 rounded-lg w-full" rows="4"></textarea>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button id="decrypt-btn" class="px-4 py-2 btn-neon rounded-lg w-full sm:w-auto" data-i18n="decrypt_btn">Şifrəni Aç</button>
+                        <div id="decrypt-spinner" class="spinner"></div>
+                    </div>
+                    <p><span data-i18n="decrypted_result">Şifrəsi açılmış nəticə</span>: <span id="decrypt-result" data-i18n="none">Yoxdur</span></p>
+                    <button id="decrypt-download-btn" class="px-4 py-2 btn-neon rounded-lg w-full sm:w-auto hidden" data-i18n="download">Yüklə</button>
+                </div>
+            </section>
+
+            <section id="history" class="tab-content bg-gray-900 p-6 rounded-lg shadow-lg hidden fade-in">
+                <h2 class="text-2xl font-semibold mb-4 text-neon-green" data-i18n="operation_history">Əməliyyat Tarixçəsi</h2>
+                <div class="table-responsive">
+                    <table class="w-full text-left border border-gray-700">
+                        <thead>
+                            <tr class="bg-gray-800">
+                                <th class="p-2 text-neon-green" data-i18n="date">Tarix</th>
+                                <th class="p-2 text-neon-green" data-i18n="operation">Əməliyyat</th>
+                                <th class="p-2 text-neon-green" data-i18n="algorithm">Alqoritm</th>
+                                <th class="p-2 text-neon-green" data-i18n="file_name">Fayl adı</th>
+                                <th class="p-2 text-neon-green" data-i18n="action">Əməliyyat</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-table">
+                            <tr><td colspan="5" class="p-2 text-center" data-i18n="no_operations">Hələ heç bir əməliyyat yoxdur</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const apiUrl = 'http://127.0.0.1:5000';
+        let history = [];
+        let currentLang = 'az';
+
+        // Login yoxlaması
+        if (!localStorage.getItem('token')) {
+            window.location.href = 'login.html';
+        }
+
+        // Tərcümələr
+        const translations = {
+            az: {
+                welcome: "Xoş gəlmisiniz",
+                logout: "Çıxış",
+                home: "Ana Səhifə",
+                encrypt: "Şifrələmə",
+                decrypt: "Şifrəni Açma",
+                history: "Tarixçə",
+                secure_system: "Təhlükəsiz Fayl Şifrələmə Sistemi",
+                about_project: "Layihə Haqqında",
+                about_project_desc: "Bu sistem AES, RSA, ChaCha20, TripleDES və ECC kimi qabaqcıl alqoritmlər ilə fayllarınızı şifrələyir.",
+                algorithms: "Şifrələmə Alqoritmləri",
+                algorithms_desc: "AES, ChaCha20, TripleDES, RSA və ECC dəstəklənir.",
+                importance: "Şifrələmənin Əhəmiyyəti",
+                importance_desc: "Məlumatlarınızı üçüncü şəxslərdən qorumaq üçün şifrələmə vacibdir.",
+                instructions: "Təlimat",
+                instruction_1: "Şifrələmə bölməsindən fayl seçin və alqoritm seçin",
+                instruction_2: '"Şifrələ" düyməsini basın',
+                instruction_3: "Yaranan şifrələnmiş faylı yükləyin",
+                instruction_4: "Şifrəni açmaq üçün eyni alqoritmdən istifadə edin",
+                file_encryption: "Fayl Şifrələmə",
+                file_decryption: "Fayl Şifrəsini Açma",
+                drag_file: "Faylı bura sürükləyin və ya klik edin",
+                upload_encrypted: "Şifrələnmiş faylı bura yükləyin",
+                selected_file: "Seçilmiş fayl",
+                none: "Yoxdur",
+                select_algorithm: "Alqoritm seçin",
+                unknown_algorithm: "Alqoritm məlum deyil",
+                key_input: "Açar daxil edin",
+                generate_key: "Açar Generasiya Et",
+                encrypt_btn: "Şifrələ",
+                decrypt_btn: "Şifrəni Aç",
+                encrypted_result: "Şifrələnmiş nəticə",
+                decrypted_result: "Şifrəsi açılmış nəticə",
+                download: "Yüklə",
+                operation_history: "Əməliyyat Tarixçəsi",
+                date: "Tarix",
+                operation: "Əməliyyat",
+                algorithm: "Alqoritm",
+                file_name: "Fayl adı",
+                action: "Əməliyyat",
+                no_operations: "Hələ heç bir əməliyyat yoxdur",
+                delete: "Sil",
+                select_file_alert: "Fayl seçin!",
+                operation_failed: "Əməliyyat uğursuz oldu"
+            },
+            en: {
+                welcome: "Welcome",
+                logout: "Logout",
+                home: "Home",
+                encrypt: "Encryption",
+                decrypt: "Decryption",
+                history: "History",
+                secure_system: "Secure File Encryption System",
+                about_project: "About the Project",
+                about_project_desc: "This system encrypts your files using advanced algorithms like AES, RSA, ChaCha20, TripleDES, and ECC.",
+                algorithms: "Encryption Algorithms",
+                algorithms_desc: "Supports AES, ChaCha20, TripleDES, RSA, and ECC.",
+                importance: "Importance of Encryption",
+                importance_desc: "Encryption is essential to protect your data from third parties.",
+                instructions: "Instructions",
+                instruction_1: "Select a file and algorithm from the encryption section",
+                instruction_2: 'Click the "Encrypt" button',
+                instruction_3: "Download the encrypted file",
+                instruction_4: "Use the same algorithm to decrypt",
+                file_encryption: "File Encryption",
+                file_decryption: "File Decryption",
+                drag_file: "Drag a file here or click to select",
+                upload_encrypted: "Upload the encrypted file here",
+                selected_file: "Selected file",
+                none: "None",
+                select_algorithm: "Select algorithm",
+                unknown_algorithm: "Algorithm unknown",
+                key_input: "Enter key",
+                generate_key: "Generate Key",
+                encrypt_btn: "Encrypt",
+                decrypt_btn: "Decrypt",
+                encrypted_result: "Encrypted result",
+                decrypted_result: "Decrypted result",
+                download: "Download",
+                operation_history: "Operation History",
+                date: "Date",
+                operation: "Operation",
+                algorithm: "Algorithm",
+                file_name: "File name",
+                action: "Action",
+                no_operations: "No operations yet",
+                delete: "Delete",
+                select_file_alert: "Please select a file!",
+                operation_failed: "Operation failed"
+            }
+        };
+
+        // Dil yeniləmə funksiyası
+        function updateLanguage(lang) {
+            currentLang = lang;
+            document.querySelectorAll('[data-i18n]').forEach(elem => {
+                const key = elem.getAttribute('data-i18n');
+                elem.innerHTML = translations[lang][key] || elem.innerHTML;
+            });
+            updateHistory();
+        }
+
+        // Tab funksiyası
+        const tabLinks = document.querySelectorAll('.tab-link');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                tabLinks.forEach(l => l.classList.remove('active'));
+                e.target.classList.add('active');
+                const target = e.target.getAttribute('href').substring(1);
+                tabContents.forEach(content => {
+                    content.classList.add('hidden');
+                    content.classList.remove('fade-in');
+                });
+                const targetContent = document.getElementById(target);
+                targetContent.classList.remove('hidden');
+                targetContent.classList.add('fade-in');
+            });
+        });
+
+        // Dil seçimləri
+        document.getElementById('lang-az').addEventListener('click', () => updateLanguage('az'));
+        document.getElementById('lang-en').addEventListener('click', () => updateLanguage('en'));
+
+        // Çıxış funksiyası
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            localStorage.removeItem('token');
+            window.location.href = 'login.html';
+        });
+
+        // Fayl düşürmə zonaları
+        const setupDropZone = (dropZoneId, fileInputId, fileNameId) => {
+            const dropZone = document.getElementById(dropZoneId);
+            const fileInput = document.getElementById(fileInputId);
+            const fileNameSpan = document.getElementById(fileNameId);
+
+            dropZone.addEventListener('click', () => fileInput.click());
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('dragover');
+            });
+            dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+                const file = e.dataTransfer.files[0];
+                fileInput.files = e.dataTransfer.files;
+                fileNameSpan.textContent = file ? file.name : translations[currentLang].none;
+            });
+            fileInput.addEventListener('change', () => {
+                fileNameSpan.textContent = fileInput.files[0] ? fileInput.files[0].name : translations[currentLang].none;
+            });
+        };
+
+        setupDropZone('encrypt-dropzone', 'encrypt-file', 'encrypt-file-name');
+        setupDropZone('decrypt-dropzone', 'decrypt-file', 'decrypt-file-name');
+
+        // Açar sahəsinin göstərilməsi
+        function toggleKeyInput() {
+            const encryptAlgorithm = document.getElementById('encrypt-algorithm').value;
+            const decryptAlgorithm = document.getElementById('decrypt-algorithm').value;
+            document.getElementById('key-input').classList.toggle('hidden', !['aes', 'chacha20', 'tripledes', 'rsa', 'ecc'].includes(encryptAlgorithm));
+            document.getElementById('decrypt-key-input').classList.toggle('hidden', !['aes', 'chacha20', 'tripledes', 'rsa', 'ecc'].includes(decryptAlgorithm));
+            document.getElementById('generate-key').classList.toggle('hidden', !['aes', 'chacha20', 'tripledes', 'rsa', 'ecc'].includes(encryptAlgorithm));
+        }
+
+        document.getElementById('encrypt-algorithm').addEventListener('change', toggleKeyInput);
+        document.getElementById('decrypt-algorithm').addEventListener('change', toggleKeyInput);
+
+        // Açar generasiya
+        document.getElementById('generate-key').addEventListener('click', async () => {
+            const algorithm = document.getElementById('encrypt-algorithm').value;
+            const token = localStorage.getItem('token');
+            if (['rsa', 'ecc'].includes(algorithm)) {
+                const response = await fetch(`${apiUrl}/generate_${algorithm}_key`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': token
+                    }
+                });
+                const data = await response.json();
+                if (data.status === 'success') {
+                    document.getElementById('encrypt-key').value = data.public_key;
+                } else {
+                    alert(translations[currentLang].operation_failed);
+                }
+            } else {
+                document.getElementById('encrypt-key').value = Math.random().toString(36).slice(2, 18);
+            }
+        });
+
+        // Şifrələmə
+        document.getElementById('encrypt-btn').addEventListener('click', async () => {
+            const fileInput = document.getElementById('encrypt-file');
+            const algorithm = document.getElementById('encrypt-algorithm').value;
+            const key = document.getElementById('encrypt-key').value;
+            const resultSpan = document.getElementById('encrypt-result');
+            const downloadBtn = document.getElementById('encrypt-download-btn');
+            const spinner = document.getElementById('encrypt-spinner');
+            const token = localStorage.getItem('token');
+
+            if (!fileInput.files[0]) return alert(translations[currentLang].select_file_alert);
+            spinner.style.display = 'inline-block';
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = async () => {
+                const content = reader.result;
+                const response = await fetch(`${apiUrl}/encrypt`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': token
+                    },
+                    body: JSON.stringify({ content, algorithm, key })
+                });
+                const data = await response.json();
+                spinner.style.display = 'none';
+
+                if (data.status === 'success') {
+                    resultSpan.textContent = translations[currentLang].encrypted_result;
+                    downloadBtn.classList.remove('hidden');
+                    downloadBtn.onclick = () => {
+                        const blob = new Blob([JSON.stringify(data.encrypted)], { type: 'application/json' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `${file.name}.enc`;
+                        a.click();
+                        URL.revokeObjectURL(url);
+                    };
+                    history.push({
+                        date: new Date().toLocaleString(),
+                        operation: translations[currentLang].encrypt,
+                        algorithm,
+                        fileName: file.name
+                    });
+                    updateHistory();
+                    if (data.private_key) {
+                        const blob = new Blob([data.private_key], { type: 'text/plain' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'private_key.pem';
+                        a.click();
+                        URL.revokeObjectURL(url);
+                    }
+                } else {
+                    resultSpan.textContent = translations[currentLang].operation_failed;
+                    if (data.message === 'Giriş tələb olunur') {
+                        localStorage.removeItem('token');
+                        window.location.href = 'login.html';
+                    }
+                }
+            };
+            reader.readAsText(file);
+        });
+
+        // Deşifrələmə
+        document.getElementById('decrypt-btn').addEventListener('click', async () => {
+            const fileInput = document.getElementById('decrypt-file');
+            const algorithm = document.getElementById('decrypt-algorithm').value;
+            const key = document.getElementById('decrypt-key').value;
+            const resultSpan = document.getElementById('decrypt-result');
+            const downloadBtn = document.getElementById('decrypt-download-btn');
+            const spinner = document.getElementById('decrypt-spinner');
+            const token = localStorage.getItem('token');
+
+            if (!fileInput.files[0]) return alert(translations[currentLang].select_file_alert);
+            spinner.style.display = 'inline-block';
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = async () => {
+                const content = JSON.parse(reader.result);
+                const response = await fetch(`${apiUrl}/decrypt`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': token
+                    },
+                    body: JSON.stringify({ content, algorithm, key })
+                });
+                const data = await response.json();
+                spinner.style.display = 'none';
+
+                if (data.status === 'success') {
+                    resultSpan.textContent = translations[currentLang].decrypted_result;
+                    downloadBtn.classList.remove('hidden');
+                    downloadBtn.onclick = () => {
+                        const blob = new Blob([data.decrypted], { type: 'text/plain' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = file.name.replace('.enc', '');
+                        a.click();
+                        URL.revokeObjectURL(url);
+                    };
+                    history.push({
+                        date: new Date().toLocaleString(),
+                        operation: translations[currentLang].decrypt,
+                        algorithm,
+                        fileName: file.name
+                    });
+                    updateHistory();
+                } else {
+                    resultSpan.textContent = translations[currentLang].operation_failed;
+                    if (data.message === 'Giriş tələb olunur') {
+                        localStorage.removeItem('token');
+                        window.location.href = 'login.html';
+                    }
+                }
+            };
+            reader.readAsText(file);
+        });
+
+        // Tarixçə yeniləmə
+        function updateHistory() {
+            const tableBody = document.getElementById('history-table');
+            tableBody.innerHTML = '';
+            if (history.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="5" class="p-2 text-center">${translations[currentLang].no_operations}</td></tr>`;
+                return;
+            }
+            history.forEach((item, index) => {
+                const row = document.createElement('tr');
+                row.classList.add('slide-in');
+                row.innerHTML = `
+                    <td class="p-2">${item.date}</td>
+                    <td class="p-2">${item.operation}</td>
+                    <td class="p-2">${item.algorithm}</td>
+                    <td class="p-2">${item.fileName}</td>
+                    <td class="p-2"><button class="delete-btn px-2 py-1 btn-neon rounded" data-index="${index}">${translations[currentLang].delete}</button></td>
+                `;
+                tableBody.appendChild(row);
+            });
+
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const index = e.target.dataset.index;
+                    history.splice(index, 1);
+                    updateHistory();
+                });
+            });
+        }
+
+        // İlkin quraşdırma
+        updateLanguage('az');
+        toggleKeyInput();
+    </script>
+</body>
+</html>

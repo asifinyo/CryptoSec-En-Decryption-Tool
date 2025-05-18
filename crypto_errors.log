@@ -1,0 +1,68 @@
+2025-05-19 01:19:06,456 - WARNING -  * Debugger is active!
+2025-05-19 01:19:06,463 - INFO -  * Debugger PIN: 918-677-023
+2025-05-19 01:19:33,289 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-05-19 01:19:33,289 - INFO - [33mPress CTRL+C to quit[0m
+2025-05-19 01:19:33,289 - INFO -  * Restarting with stat
+2025-05-19 01:19:33,603 - WARNING -  * Debugger is active!
+2025-05-19 01:19:33,603 - I  * Debugger PIN: 918-677-023
+2025-05-19 01:19:45,927 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-05-19 01:19:45,927 - INFO - [33mPress CTRL+C to quit[0m
+2025-05-19 01:19:45,927 - INFO -  * Restarting with stat
+2025-05-19 01:19:46,289 - WARNING -  * Debugger is active!
+2025-05-19 01:19:46,289 - INFO -  * Debugger PIN: 918-677-023
+2025-05-19 01:20:05,998 - INFO - 127.0.0.1 - - [19/May/2025 01:20:05] "OPTIONS /encrypt HTTP/1.1" 200 -
+2025-05-19 01:20:06,002 - INFO - 127.0.0.1 - - [19/May/2025 01:20:06] "POST /encrypt HTTP/1.1" 200 -
+2025-05-19 01:20:26,068 - INFO - 127.0.0.1 - - [19/May/2025 01:20:26] "OPTIONS /decrypt HTTP/1.1" 200 -
+2025-05-19 01:20:26,070 - ERROR - Simmetrik de\u015fifr\u0259l\u0259m\u0259 x\u0259tas\u0131 (alqoritm: aes): 'utf-8' codec can't decode byte 0xf8 in position 0: invalid start byte
+2025-05-19 01:20:26,070 - INFO - 127.0.0.1 - - [19/May/2025 01:20:26] "POST /decrypt HTTP/1.1" 200 -
+2025-05-19 01:20:30,763 - ERROR - Simmetrik de\u015fifr\u0259l\u0259m\u0259 x\u0259tas\u0131 (alqoritm: aes): 'utf-8' codec can't decode byte 0xa4 in position 0: invalid start byte
+2025-05-19 01:20:30,763 - INFO - 127.0.0.1 - - [19/May/2025 01:20:30] "POST /decrypt HTTP/1.1" 200 -
+2025-05-19 01:20:33,258 - INFO - 127.0.0.1 - - [19/May/2025 01:20:33] "OPTIONS /decrypt HTTP/1.1" 200 -
+2025-05-19 01:20:33,261 - INFO - 127.0.0.1 - - [19/May/2025 01:20:33] "POST /decrypt HTTP/1.1" 200 -
+2025-05-19 01:31:37,157 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-05-19 01:31:37,157 - INFO - [33mPress CTRL+C to quit[0m
+2025-05-19 01:31:37,157 - INFO -  * Restarting with stat
+2025-05-19 01:31:37,486 - WARNING -  * Debugger is active!
+2025-05-19 01:31:37,486 - INFO -  * Debugger PIN: 918-677-023
+2025-05-19 01:32:08,424 - INFO - 127.0.0.1 - - [19/May/2025 01:32:08] "OPTIONS /encrypt HTTP/1.1" 200 -
+2025-05-19 01:32:08,424 - INFO - 127.0.0.1 - - [19/May/2025 01:32:08] "POST /encrypt HTTP/1.1" 200 -
+2025-05-19 01:32:21,906 - INFO - 127.0.0.1 - - [19/May/2025 01:32:21] "OPTIONS /decrypt HTTP/1.1" 200 -
+2025-05-19 01:32:21,906 - INFO - 127.0.0.1 - - [19/May/2025 01:32:21] "POST /decrypt HTTP/1.1" 200 -
+2025-05-19 01:32:46,887 - INFO - 127.0.0.1 - - [19/May/2025 01:32:46] "OPTIONS /decrypt HTTP/1.1" 200 -
+2025-05-19 01:32:46,887 - INFO - 127.0.0.1 - - [19/May/2025 01:32:46] "POST /decrypt HTTP/1.1" 200 -
+2025-05-19 01:32:54,927 - INFO - 127.0.0.1 - - [19/May/2025 01:32:54] "OPTIONS /decrypt HTTP/1.1" 200 -
+2025-05-19 01:32:54,927 - ERROR - Simmetrik de\u015fifr\u0259l\u0259m\u0259 x\u0259tas\u0131 (alqoritm: chacha20): 'nonce'
+2025-05-19 01:32:54,927 - INFO - 127.0.0.1 - - [19/May/2025 01:32:54] "POST /decrypt HTTP/1.1" 200 -
+2025-05-19 01:32:58,141 - ERROR - Asimmetrik de\u015fifr\u0259l\u0259m\u0259 x\u0259tas\u0131 (alqoritm: ecc): Unable to load PEM file. See https://cryptography.io/en/latest/faq/#why-can-t-i-import-my-pem-file for more details. MalformedFraming
+2025-05-19 01:32:58,141 - INFO - 127.0.0.1 - - [19/May/2025 01:32:58] "POST /decrypt HTTP/1.1" 200 -
+2025-05-19 01:33:00,676 - INFO - 127.0.0.1 - - [19/May/2025 01:33:00] "OPTIONS /decrypt HTTP/1.1" 200 -
+2025-05-19 01:33:00,676 - ERROR - Simmetrik de\u015fifr\u0259l\u0259m\u0259 x\u0259tas\u0131 (alqoritm: aes): Invalid IV size (8) for CBC.
+2025-05-19 01:33:00,676 - INFO - 127.0.0.1 - - [19/May/2025 01:33:00] "POST /decrypt HTTP/1.1" 200 -
+2025-05-19 01:33:02,787 - INFO - 127.0.0.1 - - [19/May/2025 01:33:02] "POST /decrypt HTTP/1.1" 200 -
+2025-05-19 02:10:43,958 - INFO - 127.0.0.1 - - [19/May/2025 02:10:43] "OPTIONS /generate_ecc_key HTTP/1.1" 200 -
+2025-05-19 02:10:43,972 - ERROR - ECC açar generasiya x\u0259tas\u0131: SubjectPublicKey
+2025-05-19 02:10:43,972 - INFO - 127.0.0.1 - - [19/May/2025 02:10:43] "POST /generate_ecc_key HTTP/1.1" 200 -
+2025-05-19 02:10:49,639 - INFO - 127.0.0.1 - - [19/May/2025 02:10:49] "OPTIONS /encrypt HTTP/1.1" 200 -
+2025-05-19 02:10:49,639 - ERROR - ECC açar generasiya x\u0259tas\u0131: SubjectPublicKey
+2025-05-19 02:10:49,639 - INFO - 127.0.0.1 - - [19/May/2025 02:10:49] "POST /encrypt HTTP/1.1" 200 -
+2025-05-19 02:10:51,110 - INFO - 127.0.0.1 - - [19/May/2025 02:10:51] "OPTIONS /generate_ecc_key HTTP/1.1" 200 -
+2025-05-19 02:10:51,118 - ERROR - ECC açar generasiya x\u0259tas\u0131: SubjectPublicKey
+2025-05-19 02:10:51,118 - INFO - 127.0.0.1 - - [19/May/2025 02:10:51] "POST /generate_ecc_key HTTP/1.1" 200 -
+2025-05-19 02:10:58,519 - INFO - 127.0.0.1 - - [19/May/2025 02:10:58] "OPTIONS /generate_ecc_key HTTP/1.1" 200 -
+2025-05-19 02:10:58,531 - ERROR - ECC açar generasiya x\u0259tas\u0131: SubjectPublicKey
+2025-05-19 02:10:58,531 - INFO - 127.0.0.1 - - [19/May/2025 02:10:58] "POST /generate_ecc_key HTTP/1.1" 200 -
+2025-05-19 02:16:25,096 - INFO -  * Detected change in 'C:\\Users\\ASUS\\OneDrive\\Desktop\\layihe-kripto\\backend\\app.py', reloading
+2025-05-19 02:16:25,165 - INFO -  * Restarting with stat
+2025-05-19 02:16:25,720 - WARNING -  * Debugger is active!
+2025-05-19 02:16:25,720 - INFO -  * Debugger PIN: 918-677-023
+2025-05-19 02:21:46,128 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.78:5000
+2025-05-19 02:21:46,128 - INFO - [33mPress CTRL+C to quit[0m
+2025-05-19 02:21:46,128 - INFO -  * Restarting with stat
+2025-05-19 02:21:46,474 - WARNING -  * Debugger is active!
+2025-05-19 02:21:46,490 - INFO -  * Debugger PIN: 918-677-023

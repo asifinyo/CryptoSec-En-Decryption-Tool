@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<section id="login-section">
+  <div class="signin">
+    <div class="content">
+      <h2>Sign In</h2>
+      <form class="form" onsubmit="return handleLogin(event)" autocomplete="off">
+        <div class="inputBox">
+          <input type="text" id="login-username" autocomplete="off" required>
+          <i>Username</i>
+        </div>
+        <div class="inputBox">
+          <input type="password" id="login-password" autocomplete="off" required>
+          <i>Password</i>
+        </div>
+        <div class="links">
+          <a href="#">Forgot Password</a>
+          <a href="signup.html">Signup</a> 
+        </div>
+        <div class="inputBox">
+          <input type="submit" value="Login">
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  const section = document.getElementById('login-section');
+  for (let i = 0; i < 200; i++) {
+    const span = document.createElement('span');
+    section.insertBefore(span, section.firstChild); 
+  }
+
+  function handleLogin(e) {
+    e.preventDefault();
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const username = document.getElementById('login-username').value;
+    const password = document.getElementById('login-password').value;
+    
+    const user = users.find(u => u.username === username && u.password === password);
+    
+    if(user) {
+      localStorage.setItem('loggedInUser', JSON.stringify(user));
+      window.location.href = 'index.html';
+    } else {
+      alert('Invalid username or password! Please try again or sign up!');
+    }
+    return false;
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('login-username').value = '';
+    document.getElementById('login-password').value = '';
+  });
+</script>
+</body>
+</html>
